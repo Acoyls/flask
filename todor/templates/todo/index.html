@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="container-fluid">
+    <nav class="navbar">
+        <h1>{% block title %}Lista de tareas{% endblock %}</h1>
+        <a href="{{url_for('todo.create')}}" clas="btn btn-success">Nuevo</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col">Tareas</th>
+                <th class="col">Estados</th>
+                <th class="col" colspan="2">Opciones</th>
+            </tr>
+        </thead>
+        {% for todo in todos | reverse %}
+        {% if g.user.id == todo.created_by%} 
+        <tbody>
+            <tr>
+                <td>
+                    <h5>{{todo.title}}</h5>
+                    <p>{{todo.desc}}</p>
+                    
+                </td>
+                <td>{{todo.state}}</td>
+                <td>
+                    <a href="{{url_for('todo.update', id = todo.id)}}" class="btn btn-info btn-sm">Editar</a>
+                </td>
+                <td>
+                    <a href="{{url_for('todo.delete',id = todo.id)}}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+</section>
+{% endblock %}
